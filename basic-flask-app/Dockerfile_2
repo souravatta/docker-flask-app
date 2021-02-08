@@ -1,0 +1,18 @@
+FROM python:3.6.1-alpine AS base
+
+FROM base as builder
+
+COPY requirements.txt /requirements.txt
+
+RUN pip install --user -r /requirements.txt
+
+COPY . /app
+
+FROM base
+ENV FLASK_APP routes.py
+WORKDIR app
+COPY --from=builder /root/.local /root/.local
+COPY --from=builder /app/. .
+ENV PATH=/root/.local/bin:$PATH
+
+ENTRYPOINT ["python", "-m", "flask", "run", "--host=0.0.0.0"]
