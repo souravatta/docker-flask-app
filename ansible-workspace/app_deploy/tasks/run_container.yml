@@ -1,0 +1,6 @@
+---
+
+- name: Run the Flask container
+  shell: docker container run -p 5000:5000 -dit myimage:latest
+  become: true
+  become_method: sudo

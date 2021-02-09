@@ -1,0 +1,28 @@
+---
+
+- name: Creates directory
+  file:
+    path: /opt/app/deployment-docker/
+    state: directory
+  become: true
+  become_method: sudo
+
+- name: Copy the dependent files of Flask Application
+  copy:
+    src: /docker-workspace/basic-flask-app/
+    dest: /opt/app/deployment-docker/
+    directory_mode: yes
+  become: true
+  become_method: sudo
+
+- name: Chnage permission of the folder
+  shell: chmod -R 755 /opt/app/deployment-docker/
+  become: true
+  become_method: sudo
+
+- name: Build the Docker Image
+  command: docker build -t myimage:latest .
+  args:
+    chdir: /opt/app/deployment-docker/
+  become: true
+  become_method: sudo

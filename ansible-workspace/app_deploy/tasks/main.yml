@@ -1,0 +1,8 @@
+---
+# tasks file for app_deploy
+
+- include_tasks: install_docker.yml
+
+- include_tasks: build_image.yml
+
+- include_tasks: run_container.yml

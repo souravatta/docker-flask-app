@@ -1,0 +1,24 @@
+---
+
+- name: Update cache
+  shell: pwd
+  register: path
+  become: true
+  become_method: sudo
+
+- name: Print path
+  debug:
+     msg: "The path is: {{ path }}"
+
+- name: "Check if docker is installed"
+  package_facts:
+    manager: "auto"
+
+- name: "Docker test result"
+  debug: 
+    msg: "Docker found"
+  when: "'docker-ce' in ansible_facts.packages"
+
+- name: "Docker test result"
+  include_tasks: docker_inst.yml
+  when: "'docker-ce' not in ansible_facts.packages"

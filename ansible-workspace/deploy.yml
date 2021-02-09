@@ -1,0 +1,6 @@
+---
+
+- name: "----: DOCKER APP DEPLOYMENT :-----"
+  hosts: all
+  roles:
+    - { role: app_deploy }
